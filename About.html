@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About – Rajesh Optical</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0d1b2a;--navy-dark:#081423;
+  --green:#1db954;--green-dark:#159a42;
+  --white:#ffffff;--grey:#b0bec5;
+  --card-bg:rgba(255,255,255,0.06);--card-border:rgba(255,255,255,0.1);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
+
+/* NAVBAR */
+header{
+  position:fixed;top:0;left:0;width:100%;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 70px;
+  background:rgba(8,20,35,0.95);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(29,185,84,0.15);
+  z-index:1000;
+}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo img{height:46px;width:auto;filter:drop-shadow(0 0 8px rgba(29,185,84,0.4));}
+.logo-text{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);}
+nav{display:flex;gap:8px;align-items:center;}
+nav a{color:var(--grey);text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 16px;border-radius:8px;transition:all 0.25s;}
+nav a:hover,nav a.active{color:var(--white);background:rgba(29,185,84,0.15);}
+.nav-cta{padding:9px 22px !important;background:var(--green) !important;color:var(--white) !important;border-radius:25px !important;font-weight:600 !important;box-shadow:0 4px 15px rgba(29,185,84,0.35);}
+.nav-cta:hover{background:var(--green-dark) !important;transform:translateY(-1px);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
+.hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;}
+.mobile-menu{display:none;position:fixed;top:80px;left:0;width:100%;background:rgba(8,20,35,0.98);backdrop-filter:blur(14px);padding:20px;flex-direction:column;gap:8px;z-index:999;border-bottom:1px solid var(--card-border);}
+.mobile-menu a{color:var(--grey);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:15px;transition:0.2s;}
+.mobile-menu a:hover{color:var(--white);background:rgba(29,185,84,0.15);}
+.mobile-menu.open{display:flex;}
+
+/* PAGE HERO */
+.page-hero{
+  margin-top:80px;height:320px;
+  background:linear-gradient(135deg,rgba(8,20,35,0.92) 0%,rgba(13,27,42,0.75) 100%),
+             url("https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1400") center/cover;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
+  border-bottom:1px solid rgba(29,185,84,0.2);
+}
+.page-hero .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,60px);font-weight:900;}
+
+/* ABOUT SECTIONS */
+.section{width:90%;max-width:1200px;margin:auto;padding:90px 0;}
+.about-row{display:flex;align-items:center;gap:70px;margin-bottom:90px;}
+.about-row:last-child{margin-bottom:0;}
+.about-row.reverse{flex-direction:row-reverse;}
+.about-text{flex:1;}
+.about-text .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.about-text h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,38px);font-weight:700;margin-bottom:22px;line-height:1.2;}
+.about-text p{font-size:15.5px;color:var(--grey);line-height:1.8;margin-bottom:14px;}
+.about-image{flex:1;position:relative;}
+.about-image img{width:100%;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.5);display:block;}
+.about-image::before{
+  content:'';position:absolute;top:-12px;left:-12px;right:12px;bottom:12px;
+  border:1.5px solid rgba(29,185,84,0.3);border-radius:22px;z-index:-1;
+}
+
+/* STATS */
+.stats-section{background:var(--navy-dark);padding:80px 70px;border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);}
+.stats-container{max-width:1000px;margin:auto;display:flex;justify-content:space-around;flex-wrap:wrap;gap:40px;text-align:center;}
+.stat-box{background:var(--card-bg);border:1px solid var(--card-border);padding:40px 50px;border-radius:20px;backdrop-filter:blur(10px);transition:0.3s;min-width:200px;}
+.stat-box:hover{transform:translateY(-8px);border-color:rgba(29,185,84,0.3);box-shadow:0 15px 40px rgba(0,0,0,0.3);}
+.stat-box h2{font-family:'Playfair Display',serif;font-size:46px;color:var(--green);margin-bottom:8px;}
+.stat-box p{font-size:16px;color:var(--grey);}
+
+/* BRANCHES */
+.branches-section{padding:80px 70px;background:var(--navy);}
+.branches-section h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,38px);text-align:center;margin-bottom:12px;}
+.branches-section .subtitle{text-align:center;color:var(--grey);margin-bottom:50px;font-size:15.5px;}
+.branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:1000px;margin:auto;}
+.branch-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  padding:36px 30px;border-radius:20px;text-align:center;transition:0.3s;position:relative;overflow:hidden;
+}
+.branch-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--green),var(--green-dark));
+}
+.branch-card:hover{transform:translateY(-8px);border-color:rgba(29,185,84,0.3);box-shadow:0 20px 50px rgba(0,0,0,0.35);}
+.branch-icon{font-size:36px;margin-bottom:16px;}
+.branch-card h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;}
+.branch-card .branch-loc{color:var(--green);font-size:14px;font-weight:500;margin-bottom:12px;}
+.branch-card p{color:var(--grey);font-size:14.5px;line-height:1.65;}
+
+/* FOOTER */
+footer{background:var(--navy-dark);border-top:1px solid var(--card-border);padding:50px 70px 30px;}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:50px;margin-bottom:40px;}
+.footer-brand .logo-text{font-family:'Playfair Display',serif;font-size:20px;display:block;margin-bottom:12px;}
+.footer-brand p{color:var(--grey);font-size:14px;line-height:1.7;}
+.footer-col h4{font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:16px;}
+.footer-col a{display:block;color:var(--grey);text-decoration:none;font-size:14px;padding:4px 0;transition:0.2s;}
+.footer-col a:hover{color:var(--white);}
+.footer-col p{color:var(--grey);font-size:14px;padding:4px 0;line-height:1.6;}
+.footer-bottom{border-top:1px solid var(--card-border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{color:var(--grey);font-size:13px;}
+
+.whatsapp{position:fixed;bottom:28px;right:28px;background:#25D366;color:white;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,0.4);transition:all 0.3s;z-index:500;}
+.whatsapp:hover{transform:scale(1.1);}
+
+@media(max-width:900px){
+  header{padding:16px 24px;}
+  nav{display:none;}
+  .hamburger{display:flex;}
+  .about-row,.about-row.reverse{flex-direction:column;gap:40px;}
+  .section{width:92%;padding:60px 0;}
+  .stats-section,.branches-section{padding:60px 24px;}
+  .footer-grid{grid-template-columns:1fr;gap:30px;}
+  footer{padding:50px 24px 30px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="landing.html" class="logo">
+    <img src="logo.png" alt="Rajesh Optical">
+    <span class="logo-text">Rajesh Optical</span>
+  </a>
+  <nav>
+    <a href="landing.html">Home</a>
+    <a href="About.html" class="active">About</a>
+    <a href="services.html">Services</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="Store.html">Store</a>
+    <a href="contact.html" class="nav-cta">Contact Us</a>
+  </nav>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="landing.html">Home</a><a href="About.html">About</a><a href="services.html">Services</a>
+  <a href="catalog.html">Catalog</a><a href="Store.html">Store</a><a href="contact.html">Contact Us</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="section-label">Our Story</div>
+  <h1>About Rajesh Optical</h1>
+</div>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="stats-container">
+    <div class="stat-box"><h2 class="counter" data-target="1000">0</h2><p>Happy Customers</p></div>
+    <div class="stat-box"><h2>★★★★★</h2><p>Customer Rating</p></div>
+    <div class="stat-box"><h2>3</h2><p>Branches</p></div>
+    <div class="stat-box"><h2>10+</h2><p>Years of Trust</p></div>
+  </div>
+</section>
+
+<!-- ABOUT ROWS -->
+<section class="section">
+  <div class="about-row">
+    <div class="about-text">
+      <div class="section-label">Who We Are</div>
+      <h2>A Trusted Name in Vision Care</h2>
+      <p>Rajesh Optical is a trusted destination for premium eyewear and professional vision care services. With years of dedication in the optical industry, we focus on providing the perfect combination of style, comfort, and clarity.</p>
+      <p>Our mission is to ensure every customer experiences the best vision care with modern testing equipment, quality lenses, and stylish frames that suit different personalities and lifestyles.</p>
+      <p>We believe eyewear is more than just a necessity — it is an important part of personal style and confidence, which is why we carefully curate collections that combine fashion and functionality.</p>
+    </div>
+    <div class="about-image">
+      <img src="https://i.pinimg.com/originals/4b/e0/5d/4be05df0a5ce379f279f33a9773347f3.jpg" alt="Our Store">
+    </div>
+  </div>
+
+  <div class="about-row reverse">
+    <div class="about-text">
+      <div class="section-label">Eye Care</div>
+      <h2>Advanced Eye Care Technology</h2>
+      <p>Our eye testing services are performed using modern computerized diagnostic systems that help detect vision problems accurately.</p>
+      <p>We assist customers in identifying refractive errors, selecting correct lens prescriptions, and choosing lenses that improve visual comfort.</p>
+      <p>Our professionals provide expert consultation for progressive lenses, anti-glare lenses, blue light protection glasses, and customized vision solutions.</p>
+    </div>
+    <div class="about-image">
+      <img src="https://insightfuleyecare.com.au/wp-content/uploads/2021/05/eyetesting.jpg" alt="Eye Testing">
+    </div>
+  </div>
+
+  <div class="about-row">
+    <div class="about-text">
+      <div class="section-label">Innovation</div>
+      <h2>Our Advancements in Eyewear</h2>
+      <p>Rajesh Optical continuously adopts the latest advancements in optical technology to ensure customers receive high-quality eyewear solutions.</p>
+      <p>We provide advanced lenses including high-index lenses, UV protection lenses, anti-reflective coated lenses, and blue light filtering glasses.</p>
+      <p>Our frame collections include titanium frames, fiber frames, lightweight metal frames, and flexible designs that provide durability and superior comfort.</p>
+    </div>
+    <div class="about-image">
+      <img src="https://tse4.mm.bing.net/th/id/OIP.OYJA1NO403XSiwl79BogggHaFu?w=775&h=600&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Eyewear Collection">
+    </div>
+  </div>
+
+  <div class="about-row reverse">
+    <div class="about-text">
+      <div class="section-label">Equipment</div>
+      <h2>Technology & Equipment We Use</h2>
+      <p>We use advanced digital Auto Refractometers, Digital Vision Analyzers, Lensometers, and automated lens edging machines to ensure perfect lens fitting and alignment.</p>
+      <p>Our computerized systems help in accurate pupil distance measurement and high precision lens cutting.</p>
+      <p>By combining professional expertise with modern technology, we deliver superior optical care for every customer.</p>
+    </div>
+    <div class="about-image">
+      <img src="https://tse3.mm.bing.net/th/id/OIP.x7H72QXBpgJZtceyNp1ArQHaEH?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Our Equipment">
+    </div>
+  </div>
+</section>
+
+<!-- BRANCHES -->
+<section class="branches-section">
+  <h2>Our Branches</h2>
+  <p class="subtitle">Visit us at any of our three convenient locations</p>
+  <div class="branches">
+    <div class="branch-card">
+      <div class="branch-icon">🏪</div>
+      <h3>Tirupattur</h3>
+      <div class="branch-loc">📍 New Bus Stand Area</div>
+      <p>Complete eye testing and premium eyewear collections available.</p>
+    </div>
+    <div class="branch-card">
+      <div class="branch-icon">🏪</div>
+      <h3>Uthangarai</h3>
+      <div class="branch-loc">📍 Opposite Panchayat Office</div>
+      <p>Professional consultation and advanced lens solutions.</p>
+    </div>
+    <div class="branch-card">
+      <div class="branch-icon">🏪</div>
+      <h3>Vaniyambadi</h3>
+      <div class="branch-loc">📍 Main Town Location</div>
+      <p>Trusted eye care services and stylish frame collections.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo-text">Rajesh Optical</span>
+      <p>Your trusted destination for premium eyewear and professional vision care across Tamil Nadu.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="landing.html">Home</a><a href="About.html">About Us</a>
+      <a href="services.html">Services</a><a href="catalog.html">Catalog</a>
+      <a href="Store.html">Store</a><a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>📍 New Bus Stand Area, Tirupattur</p>
+      <p>📞 +91 98765 43210</p>
+      <p>✉ support@rajeshoptical.com</p>
+      <p>🕒 Mon – Sat: 9AM – 8PM</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Rajesh Optical. All rights reserved.</p>
+    <p>Made with ❤ for better vision</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/919876543210" class="whatsapp" target="_blank">💬</a>
+
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+const counters=document.querySelectorAll('.counter');
+counters.forEach(counter=>{
+  const target=+counter.getAttribute('data-target');let c=0;const inc=target/80;
+  const up=()=>{if(c<target){c+=inc;counter.innerText=Math.ceil(c);setTimeout(up,12);}else counter.innerText=target+"+";};
+  up();
+});
+</script>
+</body>
+</html>

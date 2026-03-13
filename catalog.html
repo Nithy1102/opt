@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalog – Rajesh Optical</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#0d1b2a;--navy-dark:#081423;--green:#1db954;--green-dark:#159a42;--white:#ffffff;--grey:#b0bec5;--card-bg:rgba(255,255,255,0.06);--card-border:rgba(255,255,255,0.1);}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
+
+header{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 70px;background:rgba(8,20,35,0.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(29,185,84,0.15);z-index:1000;}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo img{height:46px;width:auto;filter:drop-shadow(0 0 8px rgba(29,185,84,0.4));}
+.logo-text{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);}
+nav{display:flex;gap:8px;align-items:center;}
+nav a{color:var(--grey);text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 16px;border-radius:8px;transition:all 0.25s;}
+nav a:hover,nav a.active{color:var(--white);background:rgba(29,185,84,0.15);}
+.nav-cta{padding:9px 22px !important;background:var(--green) !important;color:var(--white) !important;border-radius:25px !important;font-weight:600 !important;box-shadow:0 4px 15px rgba(29,185,84,0.35);}
+.nav-cta:hover{background:var(--green-dark) !important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
+.hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;}
+.mobile-menu{display:none;position:fixed;top:80px;left:0;width:100%;background:rgba(8,20,35,0.98);backdrop-filter:blur(14px);padding:20px;flex-direction:column;gap:8px;z-index:999;border-bottom:1px solid var(--card-border);}
+.mobile-menu a{color:var(--grey);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:15px;}
+.mobile-menu a:hover{color:var(--white);background:rgba(29,185,84,0.15);}
+.mobile-menu.open{display:flex;}
+
+.page-hero{margin-top:80px;height:280px;background:linear-gradient(135deg,rgba(8,20,35,0.92),rgba(13,27,42,0.75)),url("https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1400") center/cover;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;border-bottom:1px solid rgba(29,185,84,0.2);}
+.page-hero .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,54px);font-weight:900;}
+.page-hero p{color:var(--grey);margin-top:10px;font-size:16px;}
+
+.filter-bar{padding:40px 70px 0;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.filter-btn{padding:9px 22px;background:var(--card-bg);border:1px solid var(--card-border);color:var(--grey);border-radius:25px;font-size:14px;cursor:pointer;transition:0.25s;font-family:'DM Sans',sans-serif;}
+.filter-btn:hover,.filter-btn.active{background:rgba(29,185,84,0.2);border-color:rgba(29,185,84,0.4);color:var(--white);}
+
+.catalog-section{padding:70px 70px;}
+.cat-header{margin-bottom:36px;display:flex;align-items:baseline;gap:16px;}
+.cat-header h2{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,32px);font-weight:700;}
+.cat-header .count{font-size:14px;color:var(--grey);}
+.collection{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px;}
+
+.frame-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  padding:22px 18px;border-radius:18px;text-align:center;
+  transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden;
+}
+.frame-card::after{
+  content:'View';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0.8);opacity:0;
+  background:var(--green);color:white;padding:8px 20px;border-radius:20px;
+  font-size:13px;font-weight:600;transition:0.3s;
+}
+.frame-card:hover{transform:translateY(-6px);border-color:rgba(29,185,84,0.35);box-shadow:0 16px 40px rgba(0,0,0,0.4);}
+.frame-card:hover::after{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.frame-card:hover img{opacity:0.5;}
+.frame-card img{width:100%;height:140px;object-fit:contain;margin-bottom:14px;transition:0.3s;}
+.frame-card p{font-size:14.5px;font-weight:500;color:var(--white);}
+.frame-card .tag{display:inline-block;background:rgba(29,185,84,0.15);color:var(--green);font-size:11px;padding:3px 10px;border-radius:10px;margin-top:6px;}
+
+.section-divider{height:1px;background:var(--card-border);margin:0 70px;}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(5,12,22,0.92);
+  backdrop-filter:blur(16px);z-index:2000;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity 0.35s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+
+.modal-box{
+  background:linear-gradient(145deg,rgba(15,28,45,0.98),rgba(10,20,35,0.98));
+  border:1px solid rgba(29,185,84,0.25);
+  border-radius:24px;
+  max-width:780px;width:100%;
+  display:flex;gap:0;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,0.7),0 0 0 1px rgba(29,185,84,0.1);
+  transform:translateY(30px) scale(0.97);
+  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.modal-overlay.open .modal-box{transform:translateY(0) scale(1);}
+
+.modal-img-wrap{
+  flex:0 0 340px;background:rgba(255,255,255,0.03);
+  display:flex;align-items:center;justify-content:center;
+  padding:36px 28px;border-right:1px solid rgba(255,255,255,0.07);
+  position:relative;overflow:hidden;
+}
+.modal-img-wrap::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 50%,rgba(29,185,84,0.08),transparent 70%);
+}
+.modal-img-wrap img{
+  max-width:100%;max-height:260px;object-fit:contain;
+  position:relative;z-index:1;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,0.5));
+  transition:transform 0.4s ease;
+}
+.modal-overlay.open .modal-img-wrap img{transform:scale(1.04);}
+
+.modal-info{
+  flex:1;padding:36px 32px;display:flex;flex-direction:column;justify-content:space-between;
+  overflow-y:auto;
+}
+.modal-tag{display:inline-block;background:rgba(29,185,84,0.15);color:var(--green);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:14px;}
+.modal-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1.2;margin-bottom:16px;}
+.modal-desc{color:var(--grey);font-size:14.5px;line-height:1.75;flex:1;}
+.modal-features{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px;}
+.modal-feat{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:7px 14px;font-size:12.5px;color:var(--grey);display:flex;align-items:center;gap:6px;}
+.modal-feat span{color:var(--green);}
+.modal-actions{margin-top:28px;display:flex;gap:12px;}
+.btn-enquire{
+  flex:1;padding:12px 20px;background:var(--green);color:white;
+  border:none;border-radius:12px;font-size:14px;font-weight:600;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:background 0.2s;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-enquire:hover{background:var(--green-dark);}
+.modal-close{
+  position:absolute;top:18px;right:20px;
+  background:rgba(255,255,255,0.08);border:none;color:var(--grey);
+  width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;z-index:10;
+}
+.modal-close:hover{background:rgba(255,255,255,0.15);color:white;}
+
+footer{background:var(--navy-dark);border-top:1px solid var(--card-border);padding:50px 70px 30px;}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:50px;margin-bottom:40px;}
+.footer-brand .logo-text{font-family:'Playfair Display',serif;font-size:20px;display:block;margin-bottom:12px;}
+.footer-brand p{color:var(--grey);font-size:14px;line-height:1.7;}
+.footer-col h4{font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:16px;}
+.footer-col a{display:block;color:var(--grey);text-decoration:none;font-size:14px;padding:4px 0;transition:0.2s;}
+.footer-col a:hover{color:var(--white);}
+.footer-col p{color:var(--grey);font-size:14px;padding:4px 0;line-height:1.6;}
+.footer-bottom{border-top:1px solid var(--card-border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{color:var(--grey);font-size:13px;}
+.whatsapp{position:fixed;bottom:28px;right:28px;background:#25D366;color:white;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,0.4);transition:all 0.3s;z-index:500;}
+.whatsapp:hover{transform:scale(1.1);}
+
+@media(max-width:900px){
+  header{padding:16px 24px;}nav{display:none;}.hamburger{display:flex;}
+  .filter-bar{padding:30px 20px 0;}
+  .catalog-section{padding:50px 20px;}
+  .section-divider{margin:0 20px;}
+  .footer-grid{grid-template-columns:1fr;gap:30px;}footer{padding:50px 24px 30px;}
+  .modal-box{flex-direction:column;max-height:90vh;overflow-y:auto;}
+  .modal-img-wrap{flex:none;padding:28px;border-right:none;border-bottom:1px solid rgba(255,255,255,0.07);}
+  .modal-img-wrap img{max-height:200px;}
+  .modal-info{padding:24px 22px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="landing.html" class="logo">
+    <img src="logo.png" alt="Rajesh Optical">
+    <span class="logo-text">Rajesh Optical</span>
+  </a>
+  <nav>
+    <a href="landing.html">Home</a>
+    <a href="About.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="catalog.html" class="active">Catalog</a>
+    <a href="Store.html">Store</a>
+    <a href="contact.html" class="nav-cta">Contact Us</a>
+  </nav>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="landing.html">Home</a><a href="About.html">About</a><a href="services.html">Services</a>
+  <a href="catalog.html">Catalog</a><a href="Store.html">Store</a><a href="contact.html">Contact Us</a>
+</div>
+
+<div class="page-hero">
+  <div class="section-label">Browse Our Collection</div>
+  <h1>Frames & Lens Catalog</h1>
+  <p>Power glass frames, specialty lenses and more</p>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterAll(this)">All</button>
+  <button class="filter-btn" onclick="filterCat(this,'frames')">Frames</button>
+  <button class="filter-btn" onclick="filterCat(this,'lenses')">Lenses</button>
+</div>
+
+<!-- FRAMES SECTION -->
+<section class="catalog-section" data-cat="frames">
+  <div class="cat-header">
+    <h2>Spectacle Frames</h2>
+    <span class="count">9 styles</span>
+  </div>
+  <div class="collection">
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://i.pinimg.com/originals/d8/c2/b6/d8c2b6eb1da79000566bf2562eb5f319.jpg"
+      data-name="Bold Black" data-tag="Classic"
+      data-desc="A timeless classic built for everyday confidence. The Bold Black frame features a sturdy full-rim acetate construction with a matte finish that flatters every face shape. Its wide temples and reinforced hinges ensure long-lasting durability, while the neutral black tone pairs effortlessly with any outfit — from boardroom to weekend casual."
+      data-features="Full-rim acetate|Matte finish|Unisex fit|Durable hinges">
+      <img src="https://i.pinimg.com/originals/d8/c2/b6/d8c2b6eb1da79000566bf2562eb5f319.jpg" alt="Bold Black">
+      <p>Bold Black</p><span class="tag">Classic</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://thebuyspot.com/cdn/shop/products/DSC00112.jpg?v=1669028403"
+      data-name="Matte Brown" data-tag="Trending"
+      data-desc="Warm, earthy, and effortlessly stylish — the Matte Brown frame is currently our bestseller. Crafted from lightweight TR-90 polymer, these frames sit comfortably for long hours without pressure on the nose or temples. The rich brown tone adds a sophisticated warmth that complements hazel, green, and brown eyes beautifully."
+      data-features="TR-90 polymer|Lightweight|Skin-toned warmth|Nose pad adjustable">
+      <img src="https://thebuyspot.com/cdn/shop/products/DSC00112.jpg?v=1669028403" alt="Matte Brown">
+      <p>Matte Brown</p><span class="tag">Trending</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://th.bing.com/th/id/OIP.Lk_Ip9nhQsw8DuqyoFhpJAHaHa"
+      data-name="Round Vintage" data-tag="Retro"
+      data-desc="Inspired by the golden era of eyewear, the Round Vintage frame brings old-school charm with modern precision. The perfectly circular lens shape and thin metal rim evoke a classic intellectual aesthetic — think classic scholars, artists, and icons. Pairs excellently with single-vision or progressive lenses."
+      data-features="Thin metal rim|Circular lens|Retro aesthetic|Lightweight">
+      <img src="https://th.bing.com/th/id/OIP.Lk_Ip9nhQsw8DuqyoFhpJAHaHa" alt="Round Vintage">
+      <p>Round Vintage</p><span class="tag">Retro</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://th.bing.com/th/id/OIP.wRFVTXGHVRnSmJjwbpwdlQHaHa"
+      data-name="Gold Premium" data-tag="Luxury"
+      data-desc="Make a statement with understated luxury. The Gold Premium frame is handcrafted with a brushed 24k gold-tone finish on stainless steel. It features spring hinges for a perfect adaptive fit and hypoallergenic nose pads. Whether worn in a corporate setting or at a fine dinner, this frame commands attention."
+      data-features="Gold-tone stainless steel|Spring hinges|Hypoallergenic pads|Handcrafted">
+      <img src="https://th.bing.com/th/id/OIP.wRFVTXGHVRnSmJjwbpwdlQHaHa" alt="Gold Premium">
+      <p>Gold Premium</p><span class="tag">Luxury</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://tse2.mm.bing.net/th/id/OIP.N2Ch6ajo4h-a9WZEmTlZOQHaIp"
+      data-name="Blue Light Frame" data-tag="Digital"
+      data-desc="Designed for the digital generation, the Blue Light Frame combines a modern square silhouette with integrated blue light filtering technology in the lens. Reduces eye strain and fatigue from extended screen time — ideal for professionals, gamers, and students spending 6+ hours on devices daily."
+      data-features="Blue light filter|Anti-glare coating|Screen-optimized|Square silhouette">
+      <img src="https://tse2.mm.bing.net/th/id/OIP.N2Ch6ajo4h-a9WZEmTlZOQHaIp" alt="Blue Light Frame">
+      <p>Blue Light Frame</p><span class="tag">Digital</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://cdn.shopify.com/s/files/1/2611/2064/products/signature-rimless-eye-frames-round-front_1200x1200.jpg"
+      data-name="Rimless Frame" data-tag="Minimal"
+      data-desc="Less is more with the Rimless Frame — barely-there by design. The lens is drilled and mounted directly onto titanium temples, giving you the clearest, most open visual field possible. Featherlight at under 8g, you'll forget you're wearing glasses. Perfect for those who want vision correction without any visual bulk."
+      data-features="Rimless titanium|Under 8g weight|Drill-mounted lens|Invisible look">
+      <img src="https://cdn.shopify.com/s/files/1/2611/2064/products/signature-rimless-eye-frames-round-front_1200x1200.jpg" alt="Rimless Frame">
+      <p>Rimless Frame</p><span class="tag">Minimal</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://d26qov2vs4lxs.cloudfront.net/glasses/product-uploads/fz1032/pro_1_tint.jpg"
+      data-name="Cat Eye Frame" data-tag="Stylish"
+      data-desc="Bold, feminine, and undeniably glamorous. The Cat Eye Frame features an upswept outer corner that lifts and defines the face. Made from premium Italian acetate with a subtle tortoise or solid finish, this frame is a fashion statement as much as an eyewear choice. A favourite among style-forward women."
+      data-features="Italian acetate|Upswept silhouette|Tortoise or solid|Fashion-forward">
+      <img src="https://d26qov2vs4lxs.cloudfront.net/glasses/product-uploads/fz1032/pro_1_tint.jpg" alt="Cat Eye Frame">
+      <p>Cat Eye Frame</p><span class="tag">Stylish</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://tse4.mm.bing.net/th/id/OIP.gIeGfhXjvVIp0BojhR75XwHaHa"
+      data-name="Sports Frame" data-tag="Active"
+      data-desc="Built for movement, built for performance. The Sports Frame is engineered from rubberised TR-90 with grippy temple tips that stay in place during workouts, cycling, and outdoor activity. The wraparound design offers a wide field of vision while blocking peripheral wind and dust. Compatible with prescription lenses."
+      data-features="Rubberised grip|Wraparound design|Prescription-compatible|Sweat-resistant">
+      <img src="https://tse4.mm.bing.net/th/id/OIP.gIeGfhXjvVIp0BojhR75XwHaHa" alt="Sports Frame">
+      <p>Sports Frame</p><span class="tag">Active</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://tse4.mm.bing.net/th/id/OIP.CCTJ8ZyK2fCRKxEXFLtuTgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+      data-name="Luxury Edition" data-tag="Premium"
+      data-desc="Our finest offering. The Luxury Edition is a limited-run frame crafted from beta-titanium with hand-polished edges and signature engraved temples. Each pair is individually numbered and comes with a premium leather case and cleaning kit. Reserve yours — only a select few are available at our Tirupattur store."
+      data-features="Beta-titanium|Hand-polished|Individually numbered|Leather case included">
+      <img src="https://tse4.mm.bing.net/th/id/OIP.CCTJ8ZyK2fCRKxEXFLtuTgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Luxury Edition">
+      <p>Luxury Edition</p><span class="tag">Premium</span>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- LENSES SECTION -->
+<section class="catalog-section" data-cat="lenses">
+  <div class="cat-header">
+    <h2>Lens Technology</h2>
+    <span class="count">5 types</span>
+  </div>
+  <div class="collection">
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://th.bing.com/th/id/R.f1ee0a4836a5766c048ee46a7f96c649?rik=mRnHQ2ua1eaIXQ&riu=http%3a%2f%2fvseyewear.com%2fwp-content%2fuploads%2f2024%2f05%2fSingle-Vision-Lens.webp&ehk=pv6UkFrqi3Ywy1uyQO0XrzirD%2fY2iRxixefeaE7usLA%3d&risl=&pid=ImgRaw&r=0"
+      data-name="Single Vision" data-tag="Standard"
+      data-desc="The most commonly prescribed lens worldwide. Single Vision lenses have one focal power across the entire lens surface — ideal for people with myopia (short-sightedness), hyperopia (long-sightedness), or astigmatism. Available in CR-39 plastic, polycarbonate, and high-index materials for thinner profiles at higher powers."
+      data-features="One focal power|Multiple materials|Anti-scratch coating|UV protection">
+      <img src="https://th.bing.com/th/id/R.f1ee0a4836a5766c048ee46a7f96c649?rik=mRnHQ2ua1eaIXQ&riu=http%3a%2f%2fvseyewear.com%2fwp-content%2fuploads%2f2024%2f05%2fSingle-Vision-Lens.webp&ehk=pv6UkFrqi3Ywy1uyQO0XrzirD%2fY2iRxixefeaE7usLA%3d&risl=&pid=ImgRaw&r=0" alt="Single Vision">
+      <p>Single Vision</p><span class="tag">Standard</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://eyeglass.com/cdn/shop/products/lens2.png?v=1559222415"
+      data-name="Bifocal Lens" data-tag="Multi-focus"
+      data-desc="The tried-and-tested solution for presbyopia. Bifocal lenses feature two distinct optical zones — an upper portion for distance vision and a lower segment for near reading — separated by a visible line. Ideal for patients aged 40+ who need correction for both far and close distances without switching glasses."
+      data-features="Dual optical zone|Visible segment line|Distance + near|Age 40+ recommended">
+      <img src="https://eyeglass.com/cdn/shop/products/lens2.png?v=1559222415" alt="Bifocal Lens">
+      <p>Bifocal Lens</p><span class="tag">Multi-focus</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://image.made-in-china.com/2f0j00jwhkobKcpJqY/1-56-Asp-Blue-Block-Hmc-Optical-Lens.jpg"
+      data-name="Blue Block" data-tag="Protection"
+      data-desc="Targeted protection against harmful blue light emitted by LED screens, smartphones, and fluorescent lighting. The Blue Block lens features a specialised coating that filters 30–40% of high-energy visible (HEV) blue light, reducing digital eye strain, minimising glare, and supporting better sleep patterns when used at night."
+      data-features="30–40% blue light filter|HEV protection|Anti-glare|Sleep-friendly">
+      <img src="https://image.made-in-china.com/2f0j00jwhkobKcpJqY/1-56-Asp-Blue-Block-Hmc-Optical-Lens.jpg" alt="Blue Block">
+      <p>Blue Block</p><span class="tag">Protection</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://th.bing.com/th/id/R.594c78f3d1388134842f6ec8b11c093b?rik=obIpmz13BuC84Q&riu=http%3a%2f%2flensfactory.com%2fcdn%2fshop%2fproducts%2ffreeform-cr39-progressive-lens__76760.1384223461.800.800_1200x1200.jpg%3fv%3d1683922668&ehk=VyvHgtAgHdDldRHIhUU%2bxJbRaZ8kMJAm2UInHMtw20w%3d&risl=&pid=ImgRaw&r=0"
+      data-name="Progressive" data-tag="Advanced"
+      data-desc="The modern evolution of bifocals — without the line. Progressive lenses offer a seamless gradient of focal powers: distance at the top, intermediate in the middle, and near at the bottom. This gives you natural, smooth vision transitions for every distance. Our freeform digitally-surfaced progressives deliver sharper peripheral clarity."
+      data-features="Seamless gradient|No visible line|Distance + intermediate + near|Digital freeform surfaced">
+      <img src="https://th.bing.com/th/id/R.594c78f3d1388134842f6ec8b11c093b?rik=obIpmz13BuC84Q&riu=http%3a%2f%2flensfactory.com%2fcdn%2fshop%2fproducts%2ffreeform-cr39-progressive-lens__76760.1384223461.800.800_1200x1200.jpg%3fv%3d1683922668&ehk=VyvHgtAgHdDldRHIhUU%2bxJbRaZ8kMJAm2UInHMtw20w%3d&risl=&pid=ImgRaw&r=0" alt="Progressive">
+      <p>Progressive</p><span class="tag">Advanced</span>
+    </div>
+    <div class="frame-card" onclick="openModal(this)"
+      data-img="https://www.universeoptical.com/uploads/Bluecut-lens-1.jpg"
+      data-name="Blue Cut" data-tag="Screen Care"
+      data-desc="A step above the standard anti-reflective lens, the Blue Cut lens uses a multi-layer coating to selectively cut high-energy blue wavelengths (415–455nm) — the most harmful range for long-term retinal health. Recommended for IT professionals, designers, and anyone with a screen-heavy lifestyle. Available with your prescription built in."
+      data-features="415–455nm cut|Multi-layer coating|Retinal protection|Prescription compatible">
+      <img src="https://www.universeoptical.com/uploads/Bluecut-lens-1.jpg" alt="Blue Cut">
+      <p>Blue Cut</p><span class="tag">Screen Care</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="logo-text">Rajesh Optical</span><p>Your trusted destination for premium eyewear and professional vision care across Tamil Nadu.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><a href="landing.html">Home</a><a href="About.html">About Us</a><a href="services.html">Services</a><a href="catalog.html">Catalog</a><a href="Store.html">Store</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h4>Contact</h4><p>📍 New Bus Stand Area, Tirupattur</p><p>📞 +91 98765 43210</p><p>✉ support@rajeshoptical.com</p><p>🕒 Mon – Sat: 9AM – 8PM</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Rajesh Optical. All rights reserved.</p><p>Made with ❤ for better vision</p></div>
+</footer>
+
+<a href="https://wa.me/919876543210" class="whatsapp" target="_blank">💬</a>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-img-wrap">
+      <img id="modalImg" src="" alt="">
+    </div>
+    <div class="modal-info">
+      <div>
+        <span class="modal-tag" id="modalTag"></span>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-features" id="modalFeatures"></div>
+      </div>
+      <div class="modal-actions">
+        <a href="contact.html" class="btn-enquire">💬 Enquire Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+
+function filterAll(btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.catalog-section,.section-divider').forEach(s=>s.style.display='');
+}
+function filterCat(btn,cat){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.catalog-section').forEach(s=>{
+    s.style.display=s.dataset.cat===cat?'':'none';
+  });
+  document.querySelectorAll('.section-divider').forEach(d=>d.style.display='none');
+}
+
+function openModal(card){
+  const img   = card.dataset.img;
+  const name  = card.dataset.name;
+  const tag   = card.dataset.tag;
+  const desc  = card.dataset.desc;
+  const feats = card.dataset.features ? card.dataset.features.split('|') : [];
+
+  document.getElementById('modalImg').src   = img;
+  document.getElementById('modalImg').alt   = name;
+  document.getElementById('modalTitle').textContent = name;
+  document.getElementById('modalTag').textContent   = tag;
+  document.getElementById('modalDesc').textContent  = desc;
+
+  const featContainer = document.getElementById('modalFeatures');
+  featContainer.innerHTML = feats.map(f=>`<div class="modal-feat"><span>✦</span>${f}</div>`).join('');
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function closeModalOutside(e){
+  if(e.target===document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+</script>
+
+</body>
+</html>

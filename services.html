@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services – Rajesh Optical</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#0d1b2a;--navy-dark:#081423;--green:#1db954;--green-dark:#159a42;--white:#ffffff;--grey:#b0bec5;--card-bg:rgba(255,255,255,0.06);--card-border:rgba(255,255,255,0.1);}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
+
+header{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 70px;background:rgba(8,20,35,0.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(29,185,84,0.15);z-index:1000;}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo img{height:46px;width:auto;filter:drop-shadow(0 0 8px rgba(29,185,84,0.4));}
+.logo-text{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);}
+nav{display:flex;gap:8px;align-items:center;}
+nav a{color:var(--grey);text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 16px;border-radius:8px;transition:all 0.25s;}
+nav a:hover,nav a.active{color:var(--white);background:rgba(29,185,84,0.15);}
+.nav-cta{padding:9px 22px !important;background:var(--green) !important;color:var(--white) !important;border-radius:25px !important;font-weight:600 !important;box-shadow:0 4px 15px rgba(29,185,84,0.35);}
+.nav-cta:hover{background:var(--green-dark) !important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
+.hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;}
+.mobile-menu{display:none;position:fixed;top:80px;left:0;width:100%;background:rgba(8,20,35,0.98);backdrop-filter:blur(14px);padding:20px;flex-direction:column;gap:8px;z-index:999;border-bottom:1px solid var(--card-border);}
+.mobile-menu a{color:var(--grey);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:15px;}
+.mobile-menu a:hover{color:var(--white);background:rgba(29,185,84,0.15);}
+.mobile-menu.open{display:flex;}
+
+.page-hero{margin-top:80px;height:300px;background:linear-gradient(135deg,rgba(8,20,35,0.92),rgba(13,27,42,0.75)),url("https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1400") center/cover;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;border-bottom:1px solid rgba(29,185,84,0.2);}
+.page-hero .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,60px);font-weight:900;}
+
+/* SERVICES GRID */
+.services-section{padding:90px 70px;}
+.services-section>.section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;text-align:center;}
+.services-section>p{text-align:center;color:var(--grey);font-size:16px;margin-bottom:60px;}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;}
+
+/* FLIP CARD */
+.flip-card{background:transparent;width:100%;height:380px;perspective:1200px;}
+.flip-card-inner{position:relative;width:100%;height:100%;transition:transform 0.75s cubic-bezier(0.4,0.2,0.2,1);transform-style:preserve-3d;}
+.flip-card.flipped .flip-card-inner{transform:rotateY(180deg);}
+.flip-card-front,.flip-card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:20px;overflow:hidden;}
+.flip-card-front{border:1px solid var(--card-border);}
+.flip-card-front img{width:100%;height:100%;object-fit:cover;}
+.front-overlay{position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(to top,rgba(8,20,35,0.95),transparent);}
+.front-overlay h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:4px;}
+.front-overlay p{font-size:13px;color:var(--grey);}
+.flip-btn{position:absolute;bottom:20px;right:20px;background:var(--green);color:white;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;box-shadow:0 4px 12px rgba(29,185,84,0.4);border:none;transition:0.3s;}
+.flip-btn:hover{transform:scale(1.1);}
+.flip-card-back{background:linear-gradient(135deg,#0f3d25,#0a2918);border:1px solid rgba(29,185,84,0.3);transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:36px 30px;text-align:center;}
+.flip-card-back .service-icon{font-size:44px;margin-bottom:16px;}
+.flip-card-back h3{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:14px;color:var(--white);}
+.flip-card-back p{font-size:15px;line-height:1.75;color:rgba(255,255,255,0.8);}
+.back-flip-btn{position:absolute;bottom:20px;right:20px;background:rgba(255,255,255,0.15);color:white;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.25);font-size:14px;transition:0.3s;}
+.back-flip-btn:hover{background:rgba(255,255,255,0.25);}
+
+/* OFFER BANNER */
+.offer{background:var(--navy-dark);padding:70px;text-align:center;border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);margin-top:90px;}
+.offer .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;}
+.offer h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,38px);margin-bottom:30px;}
+.offer-pills{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.pill{background:rgba(29,185,84,0.15);border:1px solid rgba(29,185,84,0.3);color:var(--white);padding:12px 28px;border-radius:30px;font-size:15px;font-weight:500;}
+
+/* FOOTER */
+footer{background:var(--navy-dark);border-top:1px solid var(--card-border);padding:50px 70px 30px;}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:50px;margin-bottom:40px;}
+.footer-brand .logo-text{font-family:'Playfair Display',serif;font-size:20px;display:block;margin-bottom:12px;}
+.footer-brand p{color:var(--grey);font-size:14px;line-height:1.7;}
+.footer-col h4{font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:16px;}
+.footer-col a{display:block;color:var(--grey);text-decoration:none;font-size:14px;padding:4px 0;transition:0.2s;}
+.footer-col a:hover{color:var(--white);}
+.footer-col p{color:var(--grey);font-size:14px;padding:4px 0;line-height:1.6;}
+.footer-bottom{border-top:1px solid var(--card-border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{color:var(--grey);font-size:13px;}
+.whatsapp{position:fixed;bottom:28px;right:28px;background:#25D366;color:white;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,0.4);transition:all 0.3s;z-index:500;}
+.whatsapp:hover{transform:scale(1.1);}
+
+@media(max-width:900px){
+  header{padding:16px 24px;}nav{display:none;}.hamburger{display:flex;}
+  .services-section{padding:70px 24px;}
+  .offer{padding:50px 24px;}
+  .footer-grid{grid-template-columns:1fr;gap:30px;}footer{padding:50px 24px 30px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="landing.html" class="logo">
+    <img src="logo.png" alt="Rajesh Optical">
+    <span class="logo-text">Rajesh Optical</span>
+  </a>
+  <nav>
+    <a href="landing.html">Home</a>
+    <a href="About.html">About</a>
+    <a href="services.html" class="active">Services</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="Store.html">Store</a>
+    <a href="contact.html" class="nav-cta">Contact Us</a>
+  </nav>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="landing.html">Home</a><a href="About.html">About</a><a href="services.html">Services</a>
+  <a href="catalog.html">Catalog</a><a href="Store.html">Store</a><a href="contact.html">Contact Us</a>
+</div>
+
+<div class="page-hero">
+  <div class="section-label">What We Offer</div>
+  <h1>Our Services</h1>
+</div>
+
+<section class="services-section">
+  <div class="section-label">Professional Care</div>
+  <p>Hover over a card and click the arrow to learn more about each service</p>
+  <div class="services">
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="https://www.carecredit.com/sites/cc/image/types-eye-tests.jpg" alt="Eye Testing">
+          <div class="front-overlay">
+            <h3>Eye Testing</h3>
+            <p>Computerized precision diagnosis</p>
+          </div>
+          <button class="flip-btn" onclick="flipCard(this)">→</button>
+        </div>
+        <div class="flip-card-back">
+          <div class="service-icon">👁</div>
+          <h3>Eye Testing</h3>
+          <p>Accurate computerized eye testing using modern diagnostic technology. Our vision experts analyze your eyesight carefully and recommend the best corrective solutions for comfortable and clear vision.</p>
+          <button class="back-flip-btn" onclick="flipCard(this)">←</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="https://images.squarespace-cdn.com/content/v1/63d7b96d650cf126ebcf1b62/882c93cd-7bca-41ac-b53c-1132b382bb75/optometrist-frame-adjustments.jpg" alt="Spectacles">
+          <div class="front-overlay">
+            <h3>Spectacle Services</h3>
+            <p>Frames for all age groups</p>
+          </div>
+          <button class="flip-btn" onclick="flipCard(this)">→</button>
+        </div>
+        <div class="flip-card-back">
+          <div class="service-icon">👓</div>
+          <h3>Spectacle Services</h3>
+          <p>A wide range of stylish and comfortable spectacle frames for all age groups. Our experts help you select the perfect frame and lens combination that matches your face shape, lifestyle, and vision needs.</p>
+          <button class="back-flip-btn" onclick="flipCard(this)">←</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="https://tse1.explicit.bing.net/th/id/OIP.3TnAxgyJt97x8eQ7fTggTQHaGH?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Contact Lenses">
+          <div class="front-overlay">
+            <h3>Contact Lenses</h3>
+            <p>Professional fitting & consultation</p>
+          </div>
+          <button class="flip-btn" onclick="flipCard(this)">→</button>
+        </div>
+        <div class="flip-card-back">
+          <div class="service-icon">🔵</div>
+          <h3>Contact Lenses</h3>
+          <p>Professional contact lens consultation and fitting services. We guide customers through safe usage, cleaning techniques, and proper maintenance to ensure comfort and eye safety.</p>
+          <button class="back-flip-btn" onclick="flipCard(this)">←</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="https://tse4.mm.bing.net/th/id/OIP.HbA7Rl3kRi5LLNitoNAPCQHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" alt="After Sales">
+          <div class="front-overlay">
+            <h3>After-Sales Support</h3>
+            <p>Repairs, adjustments & care</p>
+          </div>
+          <button class="flip-btn" onclick="flipCard(this)">→</button>
+        </div>
+        <div class="flip-card-back">
+          <div class="service-icon">🛠</div>
+          <h3>After-Sales Support</h3>
+          <p>Customer satisfaction is our priority. Free frame adjustments, cleaning, minor repairs, and continuous support to make sure your glasses stay comfortable and durable for everyday use.</p>
+          <button class="back-flip-btn" onclick="flipCard(this)">←</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="offer">
+  <div class="section-label">Current Offers</div>
+  <h2>Special Deals for Our Customers</h2>
+  <div class="offer-pills">
+    <div class="pill">🎉 Buy Frame + Lens & Get 20% OFF</div>
+    <div class="pill">👁 Free Eye Test with Frame Purchase</div>
+    <div class="pill">🔧 Free Adjustments for Life</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="logo-text">Rajesh Optical</span><p>Your trusted destination for premium eyewear and professional vision care across Tamil Nadu.</p></div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="landing.html">Home</a><a href="About.html">About Us</a><a href="services.html">Services</a><a href="catalog.html">Catalog</a><a href="Store.html">Store</a><a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>📍 New Bus Stand Area, Tirupattur</p><p>📞 +91 98765 43210</p><p>✉ support@rajeshoptical.com</p><p>🕒 Mon – Sat: 9AM – 8PM</p>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Rajesh Optical. All rights reserved.</p><p>Made with ❤ for better vision</p></div>
+</footer>
+
+<a href="https://wa.me/919876543210" class="whatsapp" target="_blank">💬</a>
+
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+function flipCard(btn){btn.closest('.flip-card').classList.toggle('flipped');}
+</script>
+</body>
+</html>

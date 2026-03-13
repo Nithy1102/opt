@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store – Rajesh Optical</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#0d1b2a;--navy-dark:#081423;--green:#1db954;--green-dark:#159a42;--white:#ffffff;--grey:#b0bec5;--card-bg:rgba(255,255,255,0.06);--card-border:rgba(255,255,255,0.1);}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
+
+header{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 70px;background:rgba(8,20,35,0.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(29,185,84,0.15);z-index:1000;}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo img{height:46px;width:auto;filter:drop-shadow(0 0 8px rgba(29,185,84,0.4));}
+.logo-text{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);}
+nav{display:flex;gap:8px;align-items:center;}
+nav a{color:var(--grey);text-decoration:none;font-size:14.5px;font-weight:500;padding:8px 16px;border-radius:8px;transition:all 0.25s;}
+nav a:hover,nav a.active{color:var(--white);background:rgba(29,185,84,0.15);}
+.nav-cta{padding:9px 22px !important;background:var(--green) !important;color:var(--white) !important;border-radius:25px !important;font-weight:600 !important;box-shadow:0 4px 15px rgba(29,185,84,0.35);}
+.nav-cta:hover{background:var(--green-dark) !important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
+.hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;}
+.mobile-menu{display:none;position:fixed;top:80px;left:0;width:100%;background:rgba(8,20,35,0.98);backdrop-filter:blur(14px);padding:20px;flex-direction:column;gap:8px;z-index:999;border-bottom:1px solid var(--card-border);}
+.mobile-menu a{color:var(--grey);text-decoration:none;padding:12px 16px;border-radius:8px;font-size:15px;}
+.mobile-menu a:hover{color:var(--white);background:rgba(29,185,84,0.15);}
+.mobile-menu.open{display:flex;}
+
+/* HERO */
+.hero{
+  margin-top:80px;height:350px;
+  background:linear-gradient(135deg,rgba(8,20,35,0.88),rgba(13,27,42,0.7)),
+             url("https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=1600") center/cover;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
+  border-bottom:1px solid rgba(29,185,84,0.2);
+}
+.hero .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,62px);font-weight:900;margin-bottom:10px;}
+.hero p{color:var(--grey);font-size:16px;}
+
+/* SECTIONS */
+.store-section{padding:80px 70px;}
+.store-section .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.store-section h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,34px);font-weight:700;margin-bottom:40px;}
+.section-divider{height:1px;background:var(--card-border);margin:0 70px;}
+
+/* PRODUCT CARDS */
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px;}
+.card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  padding:20px;border-radius:18px;text-align:center;
+  opacity:0;transform:translateY(30px);
+  transition:transform 0.4s,border-color 0.3s,box-shadow 0.3s,opacity 0.5s;
+}
+.card.show{opacity:1;transform:translateY(0);}
+.card:hover{transform:translateY(-8px);border-color:rgba(29,185,84,0.3);box-shadow:0 20px 50px rgba(0,0,0,0.4);}
+.card img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:14px;}
+.card h3{font-size:15px;font-weight:600;margin-bottom:6px;}
+.card p{font-size:13px;color:var(--grey);line-height:1.5;margin-bottom:8px;}
+.price{font-weight:700;color:var(--green);font-size:17px;}
+.badge{display:inline-block;background:rgba(29,185,84,0.15);color:var(--green);font-size:11px;padding:3px 10px;border-radius:10px;margin-top:6px;}
+
+/* OFFER STRIP */
+.offer-strip{
+  background:linear-gradient(135deg,rgba(29,185,84,0.18),rgba(29,185,84,0.05));
+  border-top:1px solid rgba(29,185,84,0.2);border-bottom:1px solid rgba(29,185,84,0.2);
+  padding:60px 70px;text-align:center;
+}
+.offer-strip .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;}
+.offer-strip h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3vw,38px);margin-bottom:28px;}
+.offer-pills{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.pill{background:rgba(29,185,84,0.15);border:1px solid rgba(29,185,84,0.3);color:var(--white);padding:12px 28px;border-radius:30px;font-size:15px;font-weight:500;}
+
+/* WHY US */
+.why-section{padding:80px 70px;}
+.why-section .section-label{font-size:12px;font-weight:600;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.why-section h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,34px);font-weight:700;margin-bottom:40px;}
+.why-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;}
+.why-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  padding:30px;border-radius:18px;text-align:center;
+  opacity:0;transform:translateY(30px);
+  transition:transform 0.4s,border-color 0.3s,box-shadow 0.3s,opacity 0.5s;
+  position:relative;overflow:hidden;
+}
+.why-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);transform:scaleX(0);transform-origin:left;transition:0.4s;}
+.why-card.show{opacity:1;transform:translateY(0);}
+.why-card:hover{transform:translateY(-6px);border-color:rgba(29,185,84,0.3);box-shadow:0 15px 40px rgba(0,0,0,0.35);}
+.why-card:hover::before{transform:scaleX(1);}
+.why-card h3{font-size:16px;font-weight:600;margin-bottom:8px;}
+.why-card p{font-size:14px;color:var(--grey);line-height:1.6;}
+
+/* FOOTER */
+footer{background:var(--navy-dark);border-top:1px solid var(--card-border);padding:50px 70px 30px;}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:50px;margin-bottom:40px;}
+.footer-brand .logo-text{font-family:'Playfair Display',serif;font-size:20px;display:block;margin-bottom:12px;}
+.footer-brand p{color:var(--grey);font-size:14px;line-height:1.7;}
+.footer-col h4{font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:16px;}
+.footer-col a{display:block;color:var(--grey);text-decoration:none;font-size:14px;padding:4px 0;transition:0.2s;}
+.footer-col a:hover{color:var(--white);}
+.footer-col p{color:var(--grey);font-size:14px;padding:4px 0;line-height:1.6;}
+.footer-bottom{border-top:1px solid var(--card-border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{color:var(--grey);font-size:13px;}
+.whatsapp{position:fixed;bottom:28px;right:28px;background:#25D366;color:white;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,0.4);transition:all 0.3s;z-index:500;}
+.whatsapp:hover{transform:scale(1.1);}
+
+@media(max-width:900px){
+  header{padding:16px 24px;}nav{display:none;}.hamburger{display:flex;}
+  .store-section,.why-section,.offer-strip{padding:60px 24px;}
+  .section-divider{margin:0 24px;}
+  .footer-grid{grid-template-columns:1fr;gap:30px;}footer{padding:50px 24px 30px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="landing.html" class="logo">
+    <img src="logo.png" alt="Rajesh Optical">
+    <span class="logo-text">Rajesh Optical</span>
+  </a>
+  <nav>
+    <a href="landing.html">Home</a>
+    <a href="About.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="Store.html" class="active">Store</a>
+    <a href="contact.html" class="nav-cta">Contact Us</a>
+  </nav>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="landing.html">Home</a><a href="About.html">About</a><a href="services.html">Services</a>
+  <a href="catalog.html">Catalog</a><a href="Store.html">Store</a><a href="contact.html">Contact Us</a>
+</div>
+
+<div class="hero">
+  <div class="section-label">Shop Now</div>
+  <h1>Explore Our Collection</h1>
+  <p>Frames for every age, style, and budget</p>
+</div>
+
+<!-- KIDS -->
+<section class="store-section">
+  <div class="section-label">For Young Ones</div>
+  <h2>Kids Collection (5–15 Years)</h2>
+  <div class="products">
+    <div class="card"><img src="https://m.media-amazon.com/images/S/aplus-media-library-service-media/30ae0d83-2291-4ab2-a66a-a62f11f19ee5.__CR0,0,300,300_PT0_SX300_V1___.jpg" alt="Cartoon Frame"><h3>Flexible Cartoon Frame</h3><div class="price">₹999</div><span class="badge">Best for Kids</span></div>
+    <div class="card"><img src="https://image.made-in-china.com/2f0j00dBmGIEjJMScQ/Mango-Beauty-Oval-Children-Glasses-Frame.jpg" alt="Lightweight Kids"><h3>Lightweight Kids Frame</h3><div class="price">₹1,199</div></div>
+    <div class="card"><img src="https://tse2.mm.bing.net/th/id/OIP.QJTqFexED88U_AH_yQemBwHaHa" alt="Colorful Frame"><h3>Colorful Frame</h3><div class="price">₹1,299</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- TEENS -->
+<section class="store-section">
+  <div class="section-label">Trending Styles</div>
+  <h2>Teens Collection (16–25 Years)</h2>
+  <div class="products">
+    <div class="card"><img src="https://img.ltwebstatic.com/images3_pi/2020/04/30/15882277749820a8167dd1b1fcdef38efae39e5b9a_thumbnail_405x552.jpg" alt="Transparent Frame"><h3>Transparent Frame</h3><div class="price">₹1,999</div><span class="badge">Trending</span></div>
+    <div class="card"><img src="https://cdn.leoptique.com/uploads/special/2020-05-14/5ebd037bde35b.jpg.webp" alt="Classic Black"><h3>Classic Black</h3><div class="price">₹1,799</div></div>
+    <div class="card"><img src="https://image.made-in-china.com/2f0j00qGCkzNwWLjoU/Round-Circle-Clear-Lens-Women-Designer-Eyeglass-Optical-Frame-in-Tr-90.jpg" alt="Round Stylish"><h3>Round Stylish</h3><div class="price">₹2,199</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- BEST SELLERS -->
+<section class="store-section">
+  <div class="section-label">Top Picks</div>
+  <h2>Best Selling Frames</h2>
+  <div class="products">
+    <div class="card"><img src="https://eyenic.in/wp-content/uploads/2021/10/RON_4521-900x900.jpg" alt="Executive Metal"><h3>Executive Metal</h3><div class="price">₹3,999</div><span class="badge">Best Seller</span></div>
+    <div class="card"><img src="https://tse2.mm.bing.net/th/id/OIP.IfylxbPdjoK888uyw9WPtgHaJR" alt="Professional Rimless"><h3>Professional Rimless</h3><div class="price">₹2,999</div></div>
+    <div class="card"><img src="https://img.ltwebstatic.com/images3_spmp/2024/08/08/bb/1723115545bda5d4d384c82e6ef08a6eee0062e6b5_thumbnail_900x.jpg" alt="Titanium Premium"><h3>Titanium Premium</h3><div class="price">₹3,499</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- LENS TECH -->
+<section class="store-section">
+  <div class="section-label">Advanced Optics</div>
+  <h2>Lens Technology</h2>
+  <div class="products">
+    <div class="card"><img src="https://www.seeseeoptical.com/wp-content/uploads/2024/08/How-Blue-Cut-Lens-Works.jpg" alt="Blue Light"><h3>Blue Light Glasses</h3><p>Protects eyes from harmful screen blue light.</p><div class="price">₹1,999</div></div>
+    <div class="card"><img src="https://nybkusa.com/cdn/shop/products/UV_protection_lens_2_b3c5797c-09d8-4f9a-b877-0ae88c34ea54_1024x1024.jpg?v=1540242589" alt="UV Protection"><h3>UV Protection Lens</h3><p>Blocks harmful ultraviolet rays from sunlight.</p><div class="price">₹1,499</div></div>
+    <div class="card"><img src="https://tse3.mm.bing.net/th/id/OIP.T7QIsFG81ZVoEKGaoHIZ6gHaHa?w=800&h=800&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Progressive"><h3>Progressive Lens</h3><p>Clear vision for distance, intermediate and reading.</p><div class="price">₹2,499</div></div>
+  </div>
+</section>
+
+<!-- OFFER STRIP -->
+<div class="offer-strip">
+  <div class="section-label">Limited Time</div>
+  <h2>Special Offers</h2>
+  <div class="offer-pills">
+    <div class="pill">🎉 Buy Frame + Lens & Get 20% OFF</div>
+    <div class="pill">👁 Free Eye Test with Frame Purchase</div>
+    <div class="pill">🔧 Free Lifetime Adjustments</div>
+  </div>
+</div>
+
+<!-- WHY US -->
+<section class="why-section">
+  <div class="section-label">Our Promise</div>
+  <h2>Why Choose Rajesh Optical?</h2>
+  <div class="why-container">
+    <div class="why-card"><h3>👁 Advanced Eye Testing</h3><p>Modern digital eye testing equipment for accurate diagnosis.</p></div>
+    <div class="why-card"><h3>👓 Latest Frame Collections</h3><p>Stylish frames curated for all age groups and lifestyles.</p></div>
+    <div class="why-card"><h3>💰 Affordable Pricing</h3><p>Premium eyewear at genuinely reasonable prices.</p></div>
+    <div class="why-card"><h3>👨‍⚕️ Experienced Staff</h3><p>Professional consultation and expert fitting every time.</p></div>
+    <div class="why-card"><h3>📍 3 Branches</h3><p>Tirupattur, Uthangarai & Vaniyambadi — close to you.</p></div>
+    <div class="why-card"><h3>⭐ Customer Satisfaction</h3><p>Your comfort and clarity is always our priority.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="logo-text">Rajesh Optical</span><p>Your trusted destination for premium eyewear and professional vision care across Tamil Nadu.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><a href="landing.html">Home</a><a href="About.html">About Us</a><a href="services.html">Services</a><a href="catalog.html">Catalog</a><a href="Store.html">Store</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h4>Contact</h4><p>📍 New Bus Stand Area, Tirupattur</p><p>📞 +91 98765 43210</p><p>✉ support@rajeshoptical.com</p><p>🕒 Mon – Sat: 9AM – 8PM</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 Rajesh Optical. All rights reserved.</p><p>Made with ❤ for better vision</p></div>
+</footer>
+
+<a href="https://wa.me/919876543210" class="whatsapp" target="_blank">💬</a>
+
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+const observed=document.querySelectorAll('.card,.why-card');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');}});
+},{threshold:0.1});
+observed.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
